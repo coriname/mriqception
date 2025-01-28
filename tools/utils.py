@@ -68,7 +68,11 @@ def filterIQM(apidf, filter_list):
                         'SNR_TOTAL':'snr_total','SNR_GM':'snr_gm','SNR_WM':'snr_wm',
                         'SNR_CSF':'snr_csf','CNR':'cnr','EFC':'efc','FWHM':'fwhm_avg',
                         'TE':'bids_meta_EchoTime','TR':'bids_meta_RepetitionTime',
-                        'Tesla':'bids_meta_MagneticFieldStrength'
+                        'Tesla':'bids_meta_MagneticFieldStrength',
+                        'Manufacturer':'bids_meta_Manufacturer',
+                        'ModelName': 'bids_meta_ManufacturersModelName',
+                        'Sequence':'bids_meta_SequenceName',
+
                         }
 
     filter_check = list(expected_filters.keys())
@@ -79,6 +83,7 @@ def filterIQM(apidf, filter_list):
         val = filt.split(' ')[2]
         if var in filter_check:
             filt_str = expected_filters[var] + op + val
+            print(filt_str)
             query.append(filt_str)
 
     filtered_df = apidf.query(' & '.join(query))
