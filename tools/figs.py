@@ -118,7 +118,7 @@ def make_vio_plot(data, IQM_to_plot, data_descriptors, outliers=False):
     elif len(IQM_to_plot) > 0:
         for x in IQM_to_plot:
             if str(x) not in qc_var_list:
-                print('Variable name not recognized.')
+                print('Variable name not recognized %s.' %str(x))
                 sys.exit()
             else:
                 pass
