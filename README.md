@@ -1,3 +1,9 @@
+# FORK Info
+
+- use python 3.13.0
+- update to pandas 2.2.3
+- create venv and install packages from requirements file
+
 # Welcome to MRIQCEPTION!
 
 - [Introduction](#introduction)

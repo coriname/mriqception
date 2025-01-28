@@ -5,7 +5,6 @@ import pandas as pd
 from urllib.request import urlopen
 from xml.dom import minidom
 from json import load
-from pandas.io.json import json_normalize
 
 def filterIQM(apidf, filter_list):
     """ Loads the API info and filters based on user-provided 
@@ -198,7 +197,7 @@ def query_api(stype, filters):
                 last_page = data['_links']['last']['href'].split('=')[-1]
                 print('Searching through %s pages...' % last_page)
 
-            dfs.append(json_normalize(data['_items']))
+            dfs.append(pd.json_normalize(data['_items']))
             if page > int(last_page):
                 break
             ## TEMPORARY BREAK FOR HACKADEMY TESTING ##
