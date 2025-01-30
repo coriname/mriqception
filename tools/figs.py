@@ -7,7 +7,7 @@ import plotly.graph_objects as go
 from ipywidgets import widgets
 import sys
 
-def make_vio_plot(data, IQM_to_plot, data_descriptors, outliers=False):
+def make_vio_plot(data, IQM_to_plot, data_descriptors, outliers=False, comment=None):
     ''' Make a violin plot of the api and user QC metrics.
 
     Args:
@@ -202,6 +202,11 @@ def make_vio_plot(data, IQM_to_plot, data_descriptors, outliers=False):
                     
     # create a split violin plot for a single variable
     fig = go.Figure()
+    
+    if comment:
+        comment = "Query: %s" %'; '.join(comment)
+    else:
+        comment = ""
 
     fig.add_trace(go.Violin(x=df_long.loc[(df_long['var']==var_name)&(df_long['SOURCE']=='USER'),'var'],
                     y=df_long.loc[(df_long['var']==var_name)&(df_long['SOURCE']=='USER'),'values'],
@@ -227,9 +232,20 @@ def make_vio_plot(data, IQM_to_plot, data_descriptors, outliers=False):
                      width=700,
                      height=700,
                      margin=go.layout.Margin(t=0),
-                     xaxis=go.layout.XAxis(title = go.layout.xaxis.Title(text=definition,font=dict(size=12))))
+                     xaxis=go.layout.XAxis(title = go.layout.xaxis.Title(text=definition,font=dict(size=12))),
+                     annotations=[dict(
+                            text=comment,
+                            x=0.95, # right side of the plot
+                            y=0.03, # bottom of the plot
+                            showarrow=False,
+                            xref="paper",
+                            yref="paper",
+                            font=dict(size=12)
+                        )])
+    
     fig.update_yaxes(range=make_range(df_long, var_name))
     fig.update_layout(template="plotly_white") # make background white
+    fig.update_layout
 
     # create a figure widget in order to show the dropdown menu
     fig_widget = go.FigureWidget(fig)
@@ -259,6 +275,8 @@ def make_vio_plot(data, IQM_to_plot, data_descriptors, outliers=False):
             fig_widget.layout.yaxis.range = make_range(df_long, var_name)
 
     dropdown_widget.observe(response, names="value")
+
+
 
     return(dropdown_widget, fig_widget)
 

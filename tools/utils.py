@@ -76,19 +76,17 @@ def filterIQM(apidf, filter_list):
                         }
 
     filter_check = list(expected_filters.keys())
-
     for filt in filter_list:
         var = filt.split(' ')[0]
         op = filt.split(' ')[1]
         val = filt.split(' ')[2]
         if var in filter_check:
             filt_str = expected_filters[var] + op + val
-            print(filt_str)
             query.append(filt_str)
 
     filtered_df = apidf.query(' & '.join(query))
 
-    return filtered_df
+    return (filtered_df, query)
 
 # Functions are in alphabetical order, because lazy! ##
 def load_groupfile(infile_path):
